@@ -29,6 +29,7 @@ return function(screen, panel, action_bar_width)
   systray:set_horizontal(false)
   systray:set_base_size(24)
 
+  local keyboard_switcher = awful.widget.keyboardlayout()
   local menu_icon =
     wibox.widget {
     icon = icons.menu,
@@ -89,6 +90,7 @@ return function(screen, panel, action_bar_width)
     {
       -- Right widgets
       layout = wibox.layout.fixed.vertical,
+      wibox.container.margin(keyboard_switcher, dpi(10), dpi(10)),
       wibox.container.margin(systray, dpi(10), dpi(10)),
       --require('widget.package-updater'),
       --require('widget.wifi'),

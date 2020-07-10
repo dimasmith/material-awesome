@@ -6,6 +6,7 @@ local hotkeys_popup = require('awful.hotkeys_popup').widget
 local modkey = require('configuration.keys.mod').modKey
 local altkey = require('configuration.keys.mod').altKey
 local apps = require('configuration.apps')
+local keyboard_switcher = awful.widget.keyboardlayout()
 -- Key bindings
 local globalKeys =
   awful.util.table.join(
@@ -16,7 +17,7 @@ local globalKeys =
   awful.key({modkey}, 's', awful.tag.viewnext, {description = 'view next', group = 'tag'}),
   awful.key({altkey, 'Control'}, 'Up', awful.tag.viewprev, {description = 'view previous', group = 'tag'}),
   awful.key({altkey, 'Control'}, 'Down', awful.tag.viewnext, {description = 'view next', group = 'tag'}),
-  awful.key({modkey}, 'Escape', awful.tag.history.restore, {description = 'go back', group = 'tag'}),
+  -- awful.key({modkey}, 'Escape', awful.tag.history.restore, {description = 'go back', group = 'tag'}),
   -- Default client focus
   awful.key(
     {modkey},
@@ -64,8 +65,32 @@ local globalKeys =
     {description = 'Switch to next window', group = 'client'}
   ),
   awful.key(
+    {modkey},
+    'k',
+    function()
+      --awful.client.focus.history.previous()
+      awful.client.focus.byidx(1)
+      if _G.client.focus then
+        _G.client.focus:raise()
+      end
+    end,
+    {description = 'Switch to next window', group = 'client'}
+  ),
+  awful.key(
     {altkey, 'Shift'},
     'Tab',
+    function()
+      --awful.client.focus.history.previous()
+      awful.client.focus.byidx(-1)
+      if _G.client.focus then
+        _G.client.focus:raise()
+      end
+    end,
+    {description = 'Switch to previous window', group = 'client'}
+  ),
+  awful.key(
+    {modkey},
+    'j',
     function()
       --awful.client.focus.history.previous()
       awful.client.focus.byidx(-1)
@@ -133,6 +158,14 @@ local globalKeys =
     end,
     {description = 'Open Brave', group = 'launcher'}
   ),
+  -- Launcher
+  awful.key(
+    {modkey},
+    'Escape',
+    function()
+      awful.util.spawn_with_shell(apps.default.rofi)
+    end,
+    {description = "Open Launcher", group = 'launcher'}),
   -- Standard program
   awful.key(
     {modkey},
@@ -210,7 +243,7 @@ local globalKeys =
   ),
   awful.key(
     {modkey},
-    'space',
+    '[',
     function()
       awful.layout.inc(1)
     end,
@@ -218,7 +251,7 @@ local globalKeys =
   ),
   awful.key(
     {modkey, 'Shift'},
-    'space',
+    ']',
     function()
       awful.layout.inc(-1)
     end,
@@ -267,6 +300,15 @@ local globalKeys =
     end,
     {description = 'show weather', group = 'widgets'}
   ),--]]
+  -- Keyboard layout
+  awful.key(
+    {modkey},
+    "space",
+    function()
+      keyboard_switcher.next_layout()
+    end,
+    {description = "switch keyboard layout", group = "hotkeys"}
+  ),
   -- Brightness
   awful.key(
     {},
@@ -339,6 +381,22 @@ local globalKeys =
     'o',
     awful.client.movetoscreen,
     {description = 'move window to next screen', group = 'client'}
+  ),
+  awful.key(
+    {modkey, 'Shift'},
+    'j',
+    function()
+      awful.screen.focus_relative(1)
+    end,
+    {description = "focus the next screen", group = 'client'}
+  ),
+  awful.key(
+    {modkey, 'Shift'},
+    'k',
+    function()
+      awful.screen.focus_relative(-1)
+    end,
+    {description = "focus the previous screen", group = 'client'}
   ),
   -- Open default program for tag
   awful.key(
