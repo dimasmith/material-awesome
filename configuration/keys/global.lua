@@ -7,6 +7,8 @@ local modkey = require('configuration.keys.mod').modKey
 local altkey = require('configuration.keys.mod').altKey
 local apps = require('configuration.apps')
 local keyboard_switcher = awful.widget.keyboardlayout()
+
+local naughty = require('naughty')
 -- Key bindings
 local globalKeys =
   awful.util.table.join(
@@ -170,7 +172,7 @@ local globalKeys =
   awful.key({modkey, 'Control'}, 'r', _G.awesome.restart, {description = 'reload awesome', group = 'awesome'}),
   awful.key({modkey, 'Control'}, 'q', _G.awesome.quit, {description = 'quit awesome', group = 'awesome'}),
   awful.key(
-    {altkey, 'Shift'},
+    {modkey, 'Shift'},
     'Right',
     function()
       awful.tag.incmwfact(0.05)
@@ -178,7 +180,7 @@ local globalKeys =
     {description = 'increase master width factor', group = 'layout'}
   ),
   awful.key(
-    {altkey, 'Shift'},
+    {modkey, 'Shift'},
     'Left',
     function()
       awful.tag.incmwfact(-0.05)
@@ -186,16 +188,16 @@ local globalKeys =
     {description = 'decrease master width factor', group = 'layout'}
   ),
   awful.key(
-    {altkey, 'Shift'},
-    'Down',
+    {modkey, 'Shift'},
+    'Up',
     function()
       awful.client.incwfact(0.05)
     end,
     {description = 'decrease master height factor', group = 'layout'}
   ),
   awful.key(
-    {altkey, 'Shift'},
-    'Up',
+    {modkey, 'Shift'},
+    'Down',
     function()
       awful.client.incwfact(-0.05)
     end,
@@ -205,7 +207,7 @@ local globalKeys =
     {modkey, 'Shift'},
     'Left',
     function()
-      awful.tag.incnmaster(1, nil, true)
+      -- awful.tag.incwfact(0.05, awful.screen.focused().selected_tag)
     end,
     {description = 'increase the number of master clients', group = 'layout'}
   ),
@@ -213,7 +215,7 @@ local globalKeys =
     {modkey, 'Shift'},
     'Right',
     function()
-      awful.tag.incnmaster(-1, nil, true)
+      -- awful.tag.incwfact(-0.05, awful.screen.focused().selected_tag)
     end,
     {description = 'decrease the number of master clients', group = 'layout'}
   ),
@@ -242,7 +244,7 @@ local globalKeys =
     {description = 'select next', group = 'layout'}
   ),
   awful.key(
-    {modkey, 'Shift'},
+    {modkey},
     ']',
     function()
       awful.layout.inc(-1)
