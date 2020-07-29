@@ -53,18 +53,6 @@ local globalKeys =
   ),
   awful.key({modkey}, 'u', awful.client.urgent.jumpto, {description = 'jump to urgent client', group = 'client'}),
   awful.key(
-    {altkey},
-    'Tab',
-    function()
-      --awful.client.focus.history.previous()
-      awful.client.focus.byidx(1)
-      if _G.client.focus then
-        _G.client.focus:raise()
-      end
-    end,
-    {description = 'Switch to next window', group = 'client'}
-  ),
-  awful.key(
     {modkey},
     'k',
     function()
@@ -77,18 +65,6 @@ local globalKeys =
     {description = 'Switch to next window', group = 'client'}
   ),
   awful.key(
-    {altkey, 'Shift'},
-    'Tab',
-    function()
-      --awful.client.focus.history.previous()
-      awful.client.focus.byidx(-1)
-      if _G.client.focus then
-        _G.client.focus:raise()
-      end
-    end,
-    {description = 'Switch to previous window', group = 'client'}
-  ),
-  awful.key(
     {modkey},
     'j',
     function()
@@ -99,6 +75,22 @@ local globalKeys =
       end
     end,
     {description = 'Switch to previous window', group = 'client'}
+  ),
+  awful.key(
+    {modkey, 'Shift'},
+    'j',
+    function()
+      awful.client.swap.byidx(-1)
+    end,
+    {description = 'Swap window with previous', group = 'client'}
+  ),
+  awful.key(
+    {modkey, 'Shift'},
+    'k',
+    function()
+      awful.client.swap.byidx(1)
+    end,
+    {description = 'Swap window with next', group = 'client'}
   ),
   -- Programms
   awful.key(
@@ -377,26 +369,18 @@ local globalKeys =
   ),
   -- Screen management
   awful.key(
-    {modkey},
+    {modkey, 'Shift'},
     'o',
     awful.client.movetoscreen,
     {description = 'move window to next screen', group = 'client'}
   ),
   awful.key(
-    {modkey, 'Shift'},
-    'j',
+    {modkey},
+    'o',
     function()
       awful.screen.focus_relative(1)
     end,
     {description = "focus the next screen", group = 'client'}
-  ),
-  awful.key(
-    {modkey, 'Shift'},
-    'k',
-    function()
-      awful.screen.focus_relative(-1)
-    end,
-    {description = "focus the previous screen", group = 'client'}
   ),
   -- Open default program for tag
   awful.key(
